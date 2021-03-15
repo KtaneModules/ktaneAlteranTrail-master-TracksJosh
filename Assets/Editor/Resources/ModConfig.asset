@@ -14,8 +14,11 @@ MonoBehaviour:
   id: alteranTrail
   title: The Alteran Trail
   author: TracksJosh
-  description: It's 2041, and apparently, whatever your math teacher taught you, will
-    save your life? I don't get it, even if you are on another planet.
+  description: 'It''s 2041, and apparently, whatever your math teacher taught you,
+    will save your life? I don''t get it, even if you are on another planet.
+
+
+    Manual can be found here: ktane.timwi.de/HTML/The%20Alteran%20Trail.html'
   version: 1.0
   outputFolder: build
-  previewImage: {fileID: 0}
+  previewImage: {fileID: 2800000, guid: eed2ff0d487268549b08e8fd7cc08e6e, type: 3}
