@@ -58,6 +58,7 @@ public class alteranTrailScript : MonoBehaviour {
     private int inputEight = 8;
     private int inputNine = 9;
 
+    public KMSelectable RetryButton;
     public KMSelectable RestButton;
     public KMSelectable HealButton;
     public KMSelectable SlowButton;
@@ -75,6 +76,7 @@ public class alteranTrailScript : MonoBehaviour {
     public KMSelectable Input9;
     public KMSelectable Submit;
 
+    private bool retry;
     private bool fast;
     private bool normal;
     private bool slow;
@@ -109,6 +111,11 @@ public class alteranTrailScript : MonoBehaviour {
     // Use this for initialization
     void Start ()
     {
+        cloud = false;
+        sunny = false;
+        sickly = false;
+        showSandstorm = false;
+        showMeteors = false;
         StartCoroutine(Water());
         Activate();
         moduleId = moduleIdCounter++;
@@ -117,6 +124,7 @@ public class alteranTrailScript : MonoBehaviour {
         food = 100;
         distance = 0;
         showPath = false;
+        retry = false;
         fast = false;
         normal = false;
         slow = false;
@@ -131,6 +139,7 @@ public class alteranTrailScript : MonoBehaviour {
         showGun = false;
         rest = false;
         currentPos = pathObjects[20].transform.position;
+        RetryButton.OnInteract += delegate { Retry(); return false; };
         RestButton.OnInteract += delegate { Rest(); return false; };
         HealButton.OnInteract += delegate { Heal(); return false; };
         FastButton.OnInteract += delegate { Fast(); return false; };
@@ -183,6 +192,26 @@ public class alteranTrailScript : MonoBehaviour {
     // Update is called once per frame
     void Update ()
     {
+        if (health <= 0)
+        {
+            time = 0;
+            retry = true;
+            showPath = false;
+            fast = false;
+            normal = false;
+            slow = false;
+            showTerrain = false;
+            heal = false;
+            showDay = false;
+            showHeal = false;
+            showEquation = false;
+            showInput = false;
+            showCache = false;
+            showSandstorm = false;
+            showMeteors = false;
+            showGun = false;
+            rest = false;
+        }
 
         if (cloud == true && Sun.intensity > 0.1f)
         {
@@ -302,6 +331,16 @@ public class alteranTrailScript : MonoBehaviour {
             SlowButton.gameObject.SetActive(false);
         }
 
+        if (retry == true)
+        {
+            RetryButton.gameObject.SetActive(true);
+            showDay = false;
+        }
+        else
+        {
+            RetryButton.gameObject.SetActive(false);
+        }
+
         if (fast == true)
         {
             FastButton.gameObject.SetActive(true);
@@ -343,7 +382,7 @@ public class alteranTrailScript : MonoBehaviour {
             increasePower--;
         }
 
-        if (speedTime > 0 && power > 0)
+        if (speedTime > 0)
         {
             distance++;
             speedTime--;
@@ -619,11 +658,26 @@ public class alteranTrailScript : MonoBehaviour {
     }
     void FoodLockerBreach()
     {
-        for (int i = 0; i < 25; i++)
+        if (food >= 25)
         {
-            food--;
+            for (int i = 0; i < 25; i++)
+            {
+                food--;
+                FoodLocker.Play();
+            }
         }
-        FoodLocker.Play();
+        else if (food == 0)
+        {
+
+        }
+        else
+        {
+            while (food > 0)
+            {
+                food--;
+                FoodLocker.Play();
+            }
+        }
     }
 
     void Ssun()
@@ -670,6 +724,14 @@ public class alteranTrailScript : MonoBehaviour {
         {
             food++;
         }
+    }
+
+    void Retry()
+    {
+        audio.PlaySoundAtTransform("PressButton", transform);
+        GetComponent<KMSelectable>().AddInteractionPunch();
+        time = 0;
+        Start();
     }
 
     void Rest()
