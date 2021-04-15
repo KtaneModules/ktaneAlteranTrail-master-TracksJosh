@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Rnd = UnityEngine.Random;
@@ -750,21 +751,181 @@ public class alteranTrailScript : MonoBehaviour {
 
     void GenerateQuestion()
     {
-        int x = 0;
-        int b = 0;
-        int c = 0;
-        int d = 0;
+        int generateion = Rnd.Range(1, 12);
+        double x = 0;
+        double b = 0;
+        double c = 0;
+        double d = 0;
         string equation;
-        int difficulty = Rnd.Range(1, 10); 
-        x = Rnd.Range(1, 5) * difficulty + 1;
-        b = Rnd.Range(1, 5) * difficulty + 1;
-        c = Rnd.Range(1, 5) * difficulty + 1;
-        d = (b * x) + c;
-        answer = x.ToString();
-        equation = b + "x + " + c + " = " + d;
-        showEquation = true;
-        showInput = true;
-        Equation.text = equation;
+        Equation.fontSize = 65;
+        int difficulty = Rnd.Range(1, 10);
+        switch (generateion)
+        {
+            case 0:
+                x = Rnd.Range(1, 5) * difficulty + 1;
+                b = Rnd.Range(1, 5) * difficulty + 1;
+                c = Rnd.Range(1, 5) * difficulty + 1;
+                d = (b * x) + c;
+                answer = x.ToString();
+                equation = b + "x + " + c + " = " + d;
+                showEquation = true;
+                showInput = true;
+                Equation.text = equation;
+                break;
+            case 1:
+                x = Rnd.Range(1, 5) * difficulty + 1;
+                b = Rnd.Range(1, 5) * difficulty + 1;
+                c = Rnd.Range(1, 5) * difficulty + 1;
+                d = (b * x) - c;
+                answer = x.ToString();
+                equation = b + "x - " + c + " = " + d;
+                showEquation = true;
+                showInput = true;
+                Equation.text = equation;
+                break;
+            case 2:
+                difficulty = Rnd.Range(1, 6);
+                b = Rnd.Range(1, 5) * difficulty + 1;
+                c = Rnd.Range(1, 5) * difficulty + 1;
+                d = b * Rnd.Range(1, 5) * difficulty + 1;
+                x = (d-c) * b;
+                answer = x.ToString();
+                equation = "x/" + b + " + " + c + " = " + d;
+                showEquation = true;
+                showInput = true;
+                Equation.text = equation;
+                break;
+            case 3:
+                difficulty = Rnd.Range(1, 6);
+                b = Rnd.Range(1, 5) * difficulty + 1;
+                c = Rnd.Range(1, 5) * difficulty + 1;
+                d = b * Rnd.Range(1, 5) * difficulty + 1;
+                x = (d + c) * b;
+                answer = x.ToString();
+                equation = "x/" + b + " - " + c + " = " + d;
+                showEquation = true;
+                showInput = true;
+                Equation.text = equation;
+                break;
+            case 4:
+                x = Rnd.Range(1, 5) * difficulty + 1;
+                c = 0;
+                b = Rnd.Range(1, 5) * difficulty + 1;
+                d = x + b;
+                answer = x.ToString();
+                equation = "x" + " + " + b + " = " + d;
+                showEquation = true;
+                showInput = true;
+                Equation.text = equation;
+                break;
+            case 5:
+                x = Rnd.Range(1, 5) * difficulty + 1;
+                c = 0;
+                b = Rnd.Range(1, 5) * difficulty + 1;
+                d = x - b;
+                answer = x.ToString();
+                equation = "x" + " - " + b + " = " + d;
+                showEquation = true;
+                showInput = true;
+                Equation.text = equation;
+                break;
+            case 6:
+                x = Rnd.Range(1, 5) * difficulty + 1;
+                c = 0;
+                b = Rnd.Range(1, 5) * difficulty + 1;
+                d = x * b;
+                answer = x.ToString();
+                equation = b + "x" + " = " + d;
+                showEquation = true;
+                showInput = true;
+                Equation.text = equation;
+                break;
+            case 7:
+                c = 0;
+                b = Rnd.Range(1, 5) * difficulty + 1;
+                d = Rnd.Range(1, 5) * difficulty + 1;
+                x = b * d;
+                answer = x.ToString();
+                equation = "x/" + b + " = " + d;
+                showEquation = true;
+                showInput = true;
+                Equation.text = equation;
+                break;
+            case 8:
+                x = Rnd.Range(1, 10);
+                c = 0;
+                b = Rnd.Range(1, 10);
+                if(x == 0 && b == 0)
+                {
+                    x = Rnd.Range(1, 10);
+                    c = 0;
+                    b = Rnd.Range(1, 10);
+                }
+                d = Math.Pow(x, b);
+                answer = x.ToString();
+                equation = "x to the power of " + b + " = " + d;
+                Equation.fontSize = 30;
+                showEquation = true;
+                showInput = true;
+                Equation.text = equation;
+                break;
+            case 9:
+                x = Rnd.Range(1, 10);
+                c = 0;
+                b = Rnd.Range(1, 10);
+                if (x == 0 && b == 0)
+                {
+                    x = Rnd.Range(1, 10);
+                    c = 0;
+                    b = Rnd.Range(1, 10);
+                }
+                d = Math.Pow(b, x);
+                answer = x.ToString();
+                equation = b + " to the power of x" + " = " + d;
+                Equation.fontSize = 30;
+                showEquation = true;
+                showInput = true;
+                Equation.text = equation;
+                break;
+            case 10:
+                x = Rnd.Range(1, 10);
+                c = 0;
+                b = Rnd.Range(1, 10);
+                if (x == 0 && b == 0)
+                {
+                    x = Rnd.Range(1, 10);
+                    c = 0;
+                    b = Rnd.Range(1, 10);
+                }
+                d = Math.Pow(b, x);
+                answer = x.ToString();
+                equation = "the xth root of " + d + " = " + b;
+                Equation.fontSize = 30;
+                showEquation = true;
+                showInput = true;
+                Equation.text = equation;
+                break;
+            case 11:
+                x = Rnd.Range(1, 10);
+                c = 0;
+                b = Rnd.Range(1, 10);
+                if (x == 0 && b == 0)
+                {
+                    x = Rnd.Range(1, 10);
+                    c = 0;
+                    b = Rnd.Range(1, 10);
+                }
+                d = Math.Pow(b, x);
+                answer = x.ToString();
+                equation = "log " + d + " base " + b + " = " + "x";
+                Equation.fontSize = 30;
+                showEquation = true;
+                showInput = true;
+                Equation.text = equation;
+                break;
+        }
+
+        
     }
     void Heal()
     {
