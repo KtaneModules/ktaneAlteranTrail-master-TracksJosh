@@ -852,14 +852,18 @@ public class alteranTrailScript : MonoBehaviour {
                 Equation.text = equation;
                 break;
             case 8:
-                x = Rnd.Range(1, 10);
+                x = Rnd.Range(2, 10);
                 c = 0;
-                b = Rnd.Range(1, 10);
+                b = Rnd.Range(2, 10);
+                if(b == 1)
+                {
+                    b += 1;
+                }
                 if(x == 0 && b == 0)
                 {
-                    x = Rnd.Range(1, 10);
+                    x = Rnd.Range(2, 10);
                     c = 0;
-                    b = Rnd.Range(1, 10);
+                    b = Rnd.Range(2, 10);
                 }
                 d = Math.Pow(x, b);
                 answer = x.ToString();
@@ -870,14 +874,14 @@ public class alteranTrailScript : MonoBehaviour {
                 Equation.text = equation;
                 break;
             case 9:
-                x = Rnd.Range(1, 10);
+                x = Rnd.Range(2, 10);
                 c = 0;
-                b = Rnd.Range(1, 10);
+                b = Rnd.Range(2, 10);
                 if (x == 0 && b == 0)
                 {
-                    x = Rnd.Range(1, 10);
+                    x = Rnd.Range(2, 10);
                     c = 0;
-                    b = Rnd.Range(1, 10);
+                    b = Rnd.Range(2, 10);
                 }
                 d = Math.Pow(b, x);
                 answer = x.ToString();
@@ -888,14 +892,14 @@ public class alteranTrailScript : MonoBehaviour {
                 Equation.text = equation;
                 break;
             case 10:
-                x = Rnd.Range(1, 10);
+                x = Rnd.Range(2, 10);
                 c = 0;
-                b = Rnd.Range(1, 10);
+                b = Rnd.Range(2, 10);
                 if (x == 0 && b == 0)
                 {
-                    x = Rnd.Range(1, 10);
+                    x = Rnd.Range(2, 10);
                     c = 0;
-                    b = Rnd.Range(1, 10);
+                    b = Rnd.Range(2, 10);
                 }
                 d = Math.Pow(b, x);
                 answer = x.ToString();
@@ -906,14 +910,14 @@ public class alteranTrailScript : MonoBehaviour {
                 Equation.text = equation;
                 break;
             case 11:
-                x = Rnd.Range(1, 10);
+                x = Rnd.Range(2, 10);
                 c = 0;
-                b = Rnd.Range(1, 10);
-                if (x == 0 && b == 0)
+                b = Rnd.Range(2, 10);
+                if (x == 1 && b == 1)
                 {
-                    x = Rnd.Range(1, 10);
+                    x = Rnd.Range(2, 10);
                     c = 0;
-                    b = Rnd.Range(1, 10);
+                    b = Rnd.Range(2, 10);
                 }
                 d = Math.Pow(b, x);
                 answer = x.ToString();
