@@ -787,7 +787,7 @@ public class alteranTrailScript : MonoBehaviour {
                 difficulty = Rnd.Range(1, 6);
                 b = Rnd.Range(1, 5) * difficulty + 1;
                 c = Rnd.Range(1, 5) * difficulty + 1;
-                d = b * Rnd.Range(1, 5) * difficulty + 1;
+                d = b * c * difficulty;
                 x = (d-c) * b;
                 answer = x.ToString();
                 equation = "x/" + b + " + " + c + " = " + d;
