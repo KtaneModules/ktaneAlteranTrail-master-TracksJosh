@@ -47,6 +47,7 @@ public class alteranTrailScript : MonoBehaviour {
     private string answer;
 
 
+    private int retries = 0;
     private int events = 0;
     private int inputZero = 0;
     private int inputOne = 1;
@@ -110,7 +111,7 @@ public class alteranTrailScript : MonoBehaviour {
     private bool isActive;
 
     // Use this for initialization
-    void Start ()
+    void Start()
     {
         cloud = false;
         sunny = false;
@@ -118,7 +119,6 @@ public class alteranTrailScript : MonoBehaviour {
         showSandstorm = false;
         showMeteors = false;
         StartCoroutine(Water());
-        Activate();
         moduleId = moduleIdCounter++;
         health = 100;
         power = 100;
@@ -140,24 +140,26 @@ public class alteranTrailScript : MonoBehaviour {
         showGun = false;
         rest = false;
         currentPos = pathObjects[20].transform.position;
-        RetryButton.OnInteract += delegate { Retry(); return false; };
-        RestButton.OnInteract += delegate { Rest(); return false; };
-        HealButton.OnInteract += delegate { Heal(); return false; };
-        FastButton.OnInteract += delegate { Fast(); return false; };
-        NormalButton.OnInteract += delegate { Normal(); return false; };
-        SlowButton.OnInteract += delegate { Slow(); return false; };
-        Submit.OnInteract += delegate { Submits(); return false; };
-        Input0.OnInteract += delegate { I0(); return false; };
-        Input1.OnInteract += delegate { I1(); return false; };
-        Input2.OnInteract += delegate { I2(); return false; };
-        Input3.OnInteract += delegate { I3(); return false; };
-        Input4.OnInteract += delegate { I4(); return false; };
-        Input5.OnInteract += delegate { I5(); return false; };
-        Input6.OnInteract += delegate { I6(); return false; };
-        Input7.OnInteract += delegate { I7(); return false; };
-        Input8.OnInteract += delegate { I8(); return false; };
-        Input9.OnInteract += delegate { I9(); return false; };
-
+        if (retries == 0)
+        {
+            RetryButton.OnInteract += delegate { Retry(); return false; };
+            RestButton.OnInteract += delegate { Rest(); return false; };
+            HealButton.OnInteract += delegate { Heal(); return false; };
+            FastButton.OnInteract += delegate { Fast(); return false; };
+            NormalButton.OnInteract += delegate { Normal(); return false; };
+            SlowButton.OnInteract += delegate { Slow(); return false; };
+            Submit.OnInteract += delegate { Submits(); return false; };
+            Input0.OnInteract += delegate { I0(); return false; };
+            Input1.OnInteract += delegate { I1(); return false; };
+            Input2.OnInteract += delegate { I2(); return false; };
+            Input3.OnInteract += delegate { I3(); return false; };
+            Input4.OnInteract += delegate { I4(); return false; };
+            Input5.OnInteract += delegate { I5(); return false; };
+            Input6.OnInteract += delegate { I6(); return false; };
+            Input7.OnInteract += delegate { I7(); return false; };
+            Input8.OnInteract += delegate { I8(); return false; };
+            Input9.OnInteract += delegate { I9(); return false; };
+        }
         StartCoroutine(Day());
     }
 
@@ -732,6 +734,7 @@ public class alteranTrailScript : MonoBehaviour {
         audio.PlaySoundAtTransform("PressButton", transform);
         GetComponent<KMSelectable>().AddInteractionPunch();
         time = 0;
+        retries++;
         Start();
     }
 
