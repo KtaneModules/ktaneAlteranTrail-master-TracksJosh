@@ -43,7 +43,7 @@ public class alteranTrailScript : MonoBehaviour {
     public TextMesh Equation;
     public TextMesh Screen;
 
-    private string answerKey;
+    private string answerKey = "";
     private string answer;
 
 
@@ -971,71 +971,102 @@ public class alteranTrailScript : MonoBehaviour {
     void I0()
     {
         audio.PlaySoundAtTransform("Tap", transform);
-        answerKey = (answerKey + inputZero.ToString()).ToString();
-        Screen.text = answerKey;
+        if (answerKey.Length <= 3)
+        {
+            answerKey = (answerKey + inputZero.ToString()).ToString();
+            Screen.text = answerKey;
+        }
+            
     }
 
     void I1()
     {
         audio.PlaySoundAtTransform("Tap", transform);
-        answerKey = (answerKey + inputOne.ToString()).ToString();
-        Screen.text = answerKey;
+        if (answerKey.Length <= 3)
+        {
+            answerKey = (answerKey + inputOne.ToString()).ToString();
+            Screen.text = answerKey;
+        }
     }
 
     void I2()
     {
         audio.PlaySoundAtTransform("Tap", transform);
-        answerKey = (answerKey + inputTwo.ToString()).ToString();
-        Screen.text = answerKey;
+        if (answerKey.Length <= 3)
+        {
+            answerKey = (answerKey + inputTwo.ToString()).ToString();
+            Screen.text = answerKey;
+        }
     }
 
     void I3()
     {
         audio.PlaySoundAtTransform("Tap", transform);
-        answerKey = (answerKey + inputThree.ToString()).ToString();
-        Screen.text = answerKey;
+        if (answerKey.Length <= 3)
+        {
+            answerKey = (answerKey + inputThree.ToString()).ToString();
+            Screen.text = answerKey;
+        }
     }
 
     void I4()
     {
         audio.PlaySoundAtTransform("Tap", transform);
-        answerKey = (answerKey + inputFour.ToString()).ToString();
-        Screen.text = answerKey;
+        if (answerKey.Length <= 3)
+        {
+            answerKey = (answerKey + inputFour.ToString()).ToString();
+            Screen.text = answerKey;
+        }
     }
 
     void I5()
     {
         audio.PlaySoundAtTransform("Tap", transform);
-        answerKey = (answerKey + inputFive.ToString()).ToString();
-        Screen.text = answerKey;
+        if (answerKey.Length <= 3)
+        {
+            answerKey = (answerKey + inputFive.ToString()).ToString();
+            Screen.text = answerKey;
+        }
     }
 
     void I6()
     {
         audio.PlaySoundAtTransform("Tap", transform);
-        answerKey = (answerKey + inputSix.ToString()).ToString();
-        Screen.text = answerKey;
+        if (answerKey.Length <= 3)
+        {
+            answerKey = (answerKey + inputSix.ToString()).ToString();
+            Screen.text = answerKey;
+        }
     }
 
     void I7()
     {
         audio.PlaySoundAtTransform("Tap", transform);
-        answerKey = (answerKey + inputSeven.ToString()).ToString();
-        Screen.text = answerKey;
+        if (answerKey.Length <= 3)
+        {
+            answerKey = (answerKey + inputSeven.ToString()).ToString();
+            Screen.text = answerKey;
+        }
     }
 
     void I8()
     {
         audio.PlaySoundAtTransform("Tap", transform);
-        answerKey = (answerKey + inputEight.ToString()).ToString();
-        Screen.text = answerKey;
+        if (answerKey.Length <= 3)
+        {
+            answerKey = (answerKey + inputEight.ToString()).ToString();
+            Screen.text = answerKey;
+        }
     }
 
     void I9()
     {
         audio.PlaySoundAtTransform("Tap", transform);
-        answerKey = (answerKey + inputNine.ToString()).ToString();
-        Screen.text = answerKey;
+        if (answerKey.Length <= 3)
+        {
+            answerKey = (answerKey + inputNine.ToString()).ToString();
+            Screen.text = answerKey;
+        }
     }
 
     void Submits()
