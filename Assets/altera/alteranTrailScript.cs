@@ -77,6 +77,7 @@ public class alteranTrailScript : MonoBehaviour {
     public KMSelectable Input8;
     public KMSelectable Input9;
     public KMSelectable Submit;
+    public KMSelectable Clear;
 
     private bool retry;
     private bool fast;
@@ -149,6 +150,7 @@ public class alteranTrailScript : MonoBehaviour {
             NormalButton.OnInteract += delegate { Normal(); return false; };
             SlowButton.OnInteract += delegate { Slow(); return false; };
             Submit.OnInteract += delegate { Submits(); return false; };
+            Clear.OnInteract += delegate { Clears(); return false; };
             Input0.OnInteract += delegate { I0(); return false; };
             Input1.OnInteract += delegate { I1(); return false; };
             Input2.OnInteract += delegate { I2(); return false; };
@@ -1067,6 +1069,14 @@ public class alteranTrailScript : MonoBehaviour {
             answerKey = (answerKey + inputNine.ToString()).ToString();
             Screen.text = answerKey;
         }
+    }
+
+    void Clears()
+    {
+        audio.PlaySoundAtTransform("Tap", transform);
+        GetComponent<KMSelectable>().AddInteractionPunch();
+        Screen.text = "";
+        answerKey = "";
     }
 
     void Submits()
