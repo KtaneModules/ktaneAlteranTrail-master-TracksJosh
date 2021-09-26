@@ -762,7 +762,7 @@ public class alteranTrailScript : MonoBehaviour {
         double c = 0;
         double d = 0;
         string equation;
-        Equation.fontSize = 65;
+        Equation.fontSize = 50;
         int difficulty = Rnd.Range(1, 10);
         switch (generateion)
         {
