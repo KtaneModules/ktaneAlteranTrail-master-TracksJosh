@@ -1132,7 +1132,6 @@ public class alteranTrailScript : MonoBehaviour {
             answerKey = "";
             answer = "";
             Screen.text = "";
-            showHeal = true;
             showTerrain = true;
             showInput = false;
             showEquation = false;
