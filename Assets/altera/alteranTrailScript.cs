@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using UnityEngine;
 using Rnd = UnityEngine.Random;
 
@@ -9,12 +9,8 @@ public class alteranTrailScript : MonoBehaviour {
     public KMAudio audio;
     public KMBombModule bombModule;
 
-    private float[] path;
     public GameObject[] pathObjects;
-    private float movementSpeed;
     private int speedTime;
-    private int currentPath;
-    private int sunRay;
     private int battery;
     private int increasePower;
     private Vector3[] pathPos;
@@ -95,7 +91,6 @@ public class alteranTrailScript : MonoBehaviour {
     private bool sunny = false;
     private bool cloud = false;
     private bool sickly = false;
-    private bool spill = false;
     private bool showCache = false;
     private bool showSandstorm = false;
     private bool showMeteors = false;
@@ -109,7 +104,6 @@ public class alteranTrailScript : MonoBehaviour {
 
     private static int moduleIdCounter = 1;
     private int moduleId;
-    private bool isActive;
 
     // Use this for initialization
     void Start()
@@ -120,7 +114,11 @@ public class alteranTrailScript : MonoBehaviour {
         showSandstorm = false;
         showMeteors = false;
         StartCoroutine(Water());
-        moduleId = moduleIdCounter++;
+        if (retries == 0)
+        {
+            moduleId = moduleIdCounter++;
+            Sun.range *= transform.lossyScale.x;
+        }
         health = 100;
         power = 100;
         food = 100;
@@ -165,11 +163,6 @@ public class alteranTrailScript : MonoBehaviour {
         StartCoroutine(Day());
     }
 
-    void Activate()
-    {
-        isActive = true;
-    }
-
     void MoveTheJeep()
     {
         showTerrain = true;
@@ -199,6 +192,7 @@ public class alteranTrailScript : MonoBehaviour {
     {
         if (health <= 0)
         {
+            Debug.LogFormat("[The Alteran Trail #{0}] You took too much damage and died", moduleId);
             time = 0;
             retry = true;
             showPath = false;
@@ -339,7 +333,6 @@ public class alteranTrailScript : MonoBehaviour {
         if (retry == true)
         {
             RetryButton.gameObject.SetActive(true);
-            showDay = false;
         }
         else
         {
@@ -596,19 +589,6 @@ public class alteranTrailScript : MonoBehaviour {
 
     void Events()
     {
-        for (int i = 0; i < 5; i++)
-        {
-            if (health <= 90 && food > 0)
-            {
-                health++;
-                food = food - 2;
-            }
-            if (food < 0)
-            {
-                food = 0; 
-            }
-        }
-        
         cloud = false;
         sunny = false;
         sickly = false;
@@ -618,39 +598,62 @@ public class alteranTrailScript : MonoBehaviour {
         switch (events)
         {
             case 0:
+                Debug.LogFormat("[The Alteran Trail #{0}] Today's Event: Cloudy", moduleId);
                 Cloudy();
                 break;
             case 1:
+                Debug.LogFormat("[The Alteran Trail #{0}] Today's Event: Sunny", moduleId);
                 Ssun();
                 break;
             case 2:
+                Debug.LogFormat("[The Alteran Trail #{0}] Today's Event: Alteran Flu", moduleId);
+                Debug.LogFormat("[The Alteran Trail #{0}] -10 health", moduleId);
                 Ssick();
                 break;
             case 3:
+                Debug.LogFormat("[The Alteran Trail #{0}] Today's Event: Battery Explosion", moduleId);
+                Debug.LogFormat("[The Alteran Trail #{0}] -25 mAH", moduleId);
                 BatteryBoom();
                 break;
             case 4:
+                Debug.LogFormat("[The Alteran Trail #{0}] Today's Event: Food Cache", moduleId);
+                Debug.LogFormat("[The Alteran Trail #{0}] +20 kg", moduleId);
                 FoodStatch();
                 break;
             case 5:
+                Debug.LogFormat("[The Alteran Trail #{0}] Today's Event: Food Locker Breach", moduleId);
+                Debug.LogFormat("[The Alteran Trail #{0}] -25 kg", moduleId);
                 FoodLockerBreach();
                 break;
             case 6:
+                Debug.LogFormat("[The Alteran Trail #{0}] Today's Event: Sandstorm", moduleId);
+                Debug.LogFormat("[The Alteran Trail #{0}] -15 health", moduleId);
                 Sandstorm();
                 break;
             case 7:
-               StartCoroutine(Meteor());
+                Debug.LogFormat("[The Alteran Trail #{0}] Today's Event: Meteor Shower", moduleId);
+                Debug.LogFormat("[The Alteran Trail #{0}] -10 health overtime", moduleId);
+                Debug.LogFormat("[The Alteran Trail #{0}] -10 mAH overtime", moduleId);
+                StartCoroutine(Meteor());
                 break;
             case 8:
+                Debug.LogFormat("[The Alteran Trail #{0}] Today's Event: Alteran Wolf", moduleId);
+                Debug.LogFormat("[The Alteran Trail #{0}] -15 health", moduleId);
+                Debug.LogFormat("[The Alteran Trail #{0}] +10 kg", moduleId);
                 StartCoroutine(Wolf());
                 break;
             case 9:
+                Debug.LogFormat("[The Alteran Trail #{0}] Today's Event: Acromantula", moduleId);
+                Debug.LogFormat("[The Alteran Trail #{0}] -15 health overtime", moduleId);
                 StartCoroutine(Acromantula());
                 break;
             case 10:
+                Debug.LogFormat("[The Alteran Trail #{0}] Today's Event: Bandits", moduleId);
+                Debug.LogFormat("[The Alteran Trail #{0}] -15 health", moduleId);
                 StartCoroutine(Bandits());
                 break;
             case 11:
+                Debug.LogFormat("[The Alteran Trail #{0}] Today's Event: Normal", moduleId);
                 break;
         }
     }
@@ -733,8 +736,9 @@ public class alteranTrailScript : MonoBehaviour {
 
     void Retry()
     {
-        audio.PlaySoundAtTransform("PressButton", transform);
-        GetComponent<KMSelectable>().AddInteractionPunch();
+        audio.PlaySoundAtTransform("PressButton", RetryButton.transform);
+        RetryButton.AddInteractionPunch();
+        StopAllCoroutines();
         time = 0;
         retries++;
         Start();
@@ -742,8 +746,9 @@ public class alteranTrailScript : MonoBehaviour {
 
     void Rest()
     {
-        audio.PlaySoundAtTransform("PressButton", transform);
-        GetComponent<KMSelectable>().AddInteractionPunch();
+        Debug.LogFormat("[The Alteran Trail #{0}] You pressed the rest button, opening the battery charging station", moduleId);
+        audio.PlaySoundAtTransform("PressButton", RestButton.transform);
+        RestButton.AddInteractionPunch();
         BackRender.material = Background[1];
         normal = false;
         fast = false;
@@ -934,45 +939,50 @@ public class alteranTrailScript : MonoBehaviour {
                 break;
         }
 
-        
+        Debug.LogFormat("[The Alteran Trail #{0}] Generated Equation: {1}", moduleId, Equation.text);
+        Debug.LogFormat("[The Alteran Trail #{0}] Answer: {1}", moduleId, answer);
     }
     void Heal()
     {
-        audio.PlaySoundAtTransform("PressButton", transform);
+        Debug.LogFormat("[The Alteran Trail #{0}] You pressed the heal button, health is now 100", moduleId);
+        audio.PlaySoundAtTransform("PressButton", HealButton.transform);
         showHeal = false;
         heal = false;
         health = 100;
-        GetComponent<KMSelectable>().AddInteractionPunch();
+        HealButton.AddInteractionPunch();
         MoveTheJeep();
     }
     void Fast()
     {
-        audio.PlaySoundAtTransform("PressButton", transform);
+        Debug.LogFormat("[The Alteran Trail #{0}] You pressed the fast button, traveled a distance of 100km", moduleId);
+        audio.PlaySoundAtTransform("PressButton", FastButton.transform);
         speedTime = 100;
         battery = 35;
-        GetComponent<KMSelectable>().AddInteractionPunch();
+        FastButton.AddInteractionPunch();
         MoveTheJeep();
     }
     void Normal()
     {
-        audio.PlaySoundAtTransform("PressButton", transform);
+        Debug.LogFormat("[The Alteran Trail #{0}] You pressed the normal button, traveled a distance of 50km", moduleId);
+        audio.PlaySoundAtTransform("PressButton", NormalButton.transform);
         speedTime = 50;
         battery = 15;
-        GetComponent<KMSelectable>().AddInteractionPunch();
+        NormalButton.AddInteractionPunch();
         MoveTheJeep();
     }
     void Slow()
     {
-        audio.PlaySoundAtTransform("PressButton", transform);
+        Debug.LogFormat("[The Alteran Trail #{0}] You pressed the slow button, traveled a distance of 25km", moduleId);
+        audio.PlaySoundAtTransform("PressButton", SlowButton.transform);
         speedTime = 25;
         battery = 10;
-        GetComponent<KMSelectable>().AddInteractionPunch();
+        SlowButton.AddInteractionPunch();
         MoveTheJeep();
     }
 
     void I0()
     {
-        audio.PlaySoundAtTransform("Tap", transform);
+        audio.PlaySoundAtTransform("Tap", Input0.transform);
         if (answerKey.Length <= 3)
         {
             answerKey = (answerKey + inputZero.ToString()).ToString();
@@ -983,7 +993,7 @@ public class alteranTrailScript : MonoBehaviour {
 
     void I1()
     {
-        audio.PlaySoundAtTransform("Tap", transform);
+        audio.PlaySoundAtTransform("Tap", Input1.transform);
         if (answerKey.Length <= 3)
         {
             answerKey = (answerKey + inputOne.ToString()).ToString();
@@ -993,7 +1003,7 @@ public class alteranTrailScript : MonoBehaviour {
 
     void I2()
     {
-        audio.PlaySoundAtTransform("Tap", transform);
+        audio.PlaySoundAtTransform("Tap", Input2.transform);
         if (answerKey.Length <= 3)
         {
             answerKey = (answerKey + inputTwo.ToString()).ToString();
@@ -1003,7 +1013,7 @@ public class alteranTrailScript : MonoBehaviour {
 
     void I3()
     {
-        audio.PlaySoundAtTransform("Tap", transform);
+        audio.PlaySoundAtTransform("Tap", Input3.transform);
         if (answerKey.Length <= 3)
         {
             answerKey = (answerKey + inputThree.ToString()).ToString();
@@ -1013,7 +1023,7 @@ public class alteranTrailScript : MonoBehaviour {
 
     void I4()
     {
-        audio.PlaySoundAtTransform("Tap", transform);
+        audio.PlaySoundAtTransform("Tap", Input4.transform);
         if (answerKey.Length <= 3)
         {
             answerKey = (answerKey + inputFour.ToString()).ToString();
@@ -1023,7 +1033,7 @@ public class alteranTrailScript : MonoBehaviour {
 
     void I5()
     {
-        audio.PlaySoundAtTransform("Tap", transform);
+        audio.PlaySoundAtTransform("Tap", Input5.transform);
         if (answerKey.Length <= 3)
         {
             answerKey = (answerKey + inputFive.ToString()).ToString();
@@ -1033,7 +1043,7 @@ public class alteranTrailScript : MonoBehaviour {
 
     void I6()
     {
-        audio.PlaySoundAtTransform("Tap", transform);
+        audio.PlaySoundAtTransform("Tap", Input6.transform);
         if (answerKey.Length <= 3)
         {
             answerKey = (answerKey + inputSix.ToString()).ToString();
@@ -1043,7 +1053,7 @@ public class alteranTrailScript : MonoBehaviour {
 
     void I7()
     {
-        audio.PlaySoundAtTransform("Tap", transform);
+        audio.PlaySoundAtTransform("Tap", Input7.transform);
         if (answerKey.Length <= 3)
         {
             answerKey = (answerKey + inputSeven.ToString()).ToString();
@@ -1053,7 +1063,7 @@ public class alteranTrailScript : MonoBehaviour {
 
     void I8()
     {
-        audio.PlaySoundAtTransform("Tap", transform);
+        audio.PlaySoundAtTransform("Tap", Input8.transform);
         if (answerKey.Length <= 3)
         {
             answerKey = (answerKey + inputEight.ToString()).ToString();
@@ -1063,7 +1073,7 @@ public class alteranTrailScript : MonoBehaviour {
 
     void I9()
     {
-        audio.PlaySoundAtTransform("Tap", transform);
+        audio.PlaySoundAtTransform("Tap", Input9.transform);
         if (answerKey.Length <= 3)
         {
             answerKey = (answerKey + inputNine.ToString()).ToString();
@@ -1073,24 +1083,26 @@ public class alteranTrailScript : MonoBehaviour {
 
     void Clears()
     {
-        audio.PlaySoundAtTransform("Tap", transform);
-        GetComponent<KMSelectable>().AddInteractionPunch();
+        audio.PlaySoundAtTransform("Tap", Clear.transform);
+        Clear.AddInteractionPunch();
         Screen.text = "";
         answerKey = "";
     }
 
     void Submits()
     {
-        audio.PlaySoundAtTransform("Tap", transform);
-        GetComponent<KMSelectable>().AddInteractionPunch();
+        audio.PlaySoundAtTransform("Tap", Submit.transform);
+        Submit.AddInteractionPunch();
         BackRender.material = Background[0];
         if (Screen.text == answer)
         {
+            Debug.LogFormat("[The Alteran Trail #{0}] Submitted '{1}' to the battery charging station, which is correct", moduleId, Screen.text);
             answerKey = "";
             answer = "";
             Screen.text = "";
             if (cloud == true)
             {
+                Debug.LogFormat("[The Alteran Trail #{0}] +15 mAH", moduleId);
                 if (power <= 0)
                 {
                     power = 1;
@@ -1103,6 +1115,7 @@ public class alteranTrailScript : MonoBehaviour {
             }
             else if (sunny == true)
             {
+                Debug.LogFormat("[The Alteran Trail #{0}] +40 mAH", moduleId);
                 if (power <= 0)
                 {
                     power = 1;
@@ -1115,6 +1128,7 @@ public class alteranTrailScript : MonoBehaviour {
             }
             else
             {
+                Debug.LogFormat("[The Alteran Trail #{0}] +30 mAH", moduleId);
                 if (power <= 0)
                 {
                     power = 1;
@@ -1129,6 +1143,7 @@ public class alteranTrailScript : MonoBehaviour {
         }
         else
         {
+            Debug.LogFormat("[The Alteran Trail #{0}] Submitted '{1}' to the battery charging station, which is incorrect. Strike!", moduleId, Screen.text);
             answerKey = "";
             answer = "";
             Screen.text = "";
@@ -1142,7 +1157,6 @@ public class alteranTrailScript : MonoBehaviour {
 
     IEnumerator Meteor()
     {
-
         showMeteors = true;
         Meteors.Play();
         yield return new WaitForSeconds(2.0f);
@@ -1234,8 +1248,28 @@ public class alteranTrailScript : MonoBehaviour {
 
     IEnumerator TimingFriending()
     {
-
-        yield return new WaitForSeconds(2.0f);
+        yield return new WaitForSeconds(1.125f);
+        int tempHealth = health;
+        int tempFood = food;
+        for (int i = 0; i < 5; i++)
+        {
+            if (health <= 90 && food > 0)
+            {
+                health++;
+                food = food - 2;
+            }
+            if (food < 0)
+            {
+                food = 0;
+            }
+            yield return new WaitForSeconds(0.05f);
+        }
+        if (food != tempFood && health != tempHealth)
+        {
+            Debug.LogFormat("[The Alteran Trail #{0}] -{1} kg (Regen)", moduleId, tempFood - food);
+            Debug.LogFormat("[The Alteran Trail #{0}] +{1} health (Regen)", moduleId, health - tempHealth);
+        }
+        yield return new WaitForSeconds(0.625f);
         Events();
         yield return new WaitForSeconds(2.0f);
         StartCoroutine(Day());
@@ -1258,6 +1292,7 @@ public class alteranTrailScript : MonoBehaviour {
     {
         time = time + 1;
         Days.text = time.ToString();
+        Debug.LogFormat("[The Alteran Trail #{0}] It is Day {1} of your mission", moduleId, time);
         showDay = true;
         yield return new WaitForSeconds(2.0f);
         showDay = false;
@@ -1284,6 +1319,7 @@ public class alteranTrailScript : MonoBehaviour {
         }
         if (distance >= 1000)
         {
+            Debug.LogFormat("[The Alteran Trail #{0}] Successfully traveled at least 1000km, delivery complete!", moduleId);
             bombModule.HandlePass();
             normal = false;
             fast = false;
@@ -1297,5 +1333,168 @@ public class alteranTrailScript : MonoBehaviour {
             showMeteors = false;
             showSandstorm = false;
         }
+    }
+
+    //twitch plays
+    #pragma warning disable 414
+    private readonly string TwitchHelpMessage = @"!{0} fast/normal/slow/rest/heal/retry [Presses the specified button] | !{0} submit <ans> [Submits the specified answer 'ans' for the battery charging station]";
+    #pragma warning restore 414
+    IEnumerator ProcessTwitchCommand(string command)
+    {
+        if (Regex.IsMatch(command, @"^\s*fast\s*$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant))
+        {
+            yield return null;
+            if (showInput || !fast)
+            {
+                yield return "sendtochaterror That button cannot be pressed right now!";
+            }
+            FastButton.OnInteract();
+        }
+        if (Regex.IsMatch(command, @"^\s*normal\s*$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant))
+        {
+            yield return null;
+            if (showInput || !normal)
+            {
+                yield return "sendtochaterror That button cannot be pressed right now!";
+            }
+            NormalButton.OnInteract();
+        }
+        if (Regex.IsMatch(command, @"^\s*slow\s*$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant))
+        {
+            yield return null;
+            if (showInput || !slow)
+            {
+                yield return "sendtochaterror That button cannot be pressed right now!";
+            }
+            SlowButton.OnInteract();
+        }
+        if (Regex.IsMatch(command, @"^\s*rest\s*$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant))
+        {
+            yield return null;
+            if (showInput || !rest)
+            {
+                yield return "sendtochaterror That button cannot be pressed right now!";
+            }
+            RestButton.OnInteract();
+        }
+        if (Regex.IsMatch(command, @"^\s*heal\s*$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant))
+        {
+            yield return null;
+            if (showInput || !HealButton.gameObject.activeSelf)
+            {
+                yield return "sendtochaterror That button cannot be pressed right now!";
+            }
+            HealButton.OnInteract();
+        }
+        if (Regex.IsMatch(command, @"^\s*retry\s*$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant))
+        {
+            yield return null;
+            if (showInput || !retry)
+            {
+                yield return "sendtochaterror That button cannot be pressed right now!";
+            }
+            RetryButton.OnInteract();
+        }
+        string[] parameters = command.Split(' ');
+        if (Regex.IsMatch(parameters[0], @"^\s*submit\s*$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant))
+        {
+            yield return null;
+            if (parameters.Length > 2)
+            {
+                yield return "sendtochaterror Too many parameters!";
+            }
+            else if (parameters.Length == 2)
+            {
+                int temp = -1;
+                if (!int.TryParse(parameters[1], out temp))
+                {
+                    yield return "sendtochaterror!f The specified answer '" + parameters[1] + "' is invalid!";
+                    yield break;
+                }
+                if (temp < 0 || temp > 9999)
+                {
+                    yield return "sendtochaterror The specified answer '" + parameters[1] + "' is invalid!";
+                    yield break;
+                }
+                if (!showInput)
+                {
+                    yield return "sendtochaterror An answer cannot be submitted to the battery charging station right now!";
+                    yield break;
+                }
+                KMSelectable[] keypad = { Input0, Input1, Input2, Input3, Input4, Input5, Input6, Input7, Input8, Input9 };
+                for (int j = 0; j < answer.Length; j++)
+                {
+                    keypad[int.Parse(answer[j].ToString())].OnInteract();
+                    yield return new WaitForSeconds(.1f);
+                }
+                Submit.OnInteract();
+            }
+            else if (parameters.Length == 1)
+            {
+                yield return "sendtochaterror Please specify an answer to submit!";
+            }
+        }
+    }
+
+    IEnumerator TwitchHandleForcedSolve()
+    {
+        KMSelectable[] keypad = { Input0, Input1, Input2, Input3, Input4, Input5, Input6, Input7, Input8, Input9 };
+        if (showInput)
+        {
+            bool clrPress = false;
+            if (Screen.text.Length > answer.Length)
+            {
+                Clear.OnInteract();
+                yield return new WaitForSeconds(.1f);
+                clrPress = true;
+            }
+            else
+            {
+                for (int i = 0; i < Screen.text.Length; i++)
+                {
+                    if (i == answer.Length)
+                        break;
+                    if (Screen.text[i] != answer[i])
+                    {
+                        Clear.OnInteract();
+                        yield return new WaitForSeconds(.1f);
+                        clrPress = true;
+                        break;
+                    }
+                }
+            }
+            int start = 0;
+            if (!clrPress)
+                start = Screen.text.Length;
+            for (int j = start; j < answer.Length; j++)
+            {
+                keypad[int.Parse(answer[j].ToString())].OnInteract();
+                yield return new WaitForSeconds(.1f);
+            }
+            Submit.OnInteract();
+        }
+        while (distance < 1000)
+        {
+            while (!fast && !rest) { if (distance >= 1000) { break; } if (retry) { RetryButton.OnInteract(); } yield return true; }
+            if (distance < 1000)
+            {
+                if (health <= 15 && HealButton.gameObject.activeSelf)
+                    HealButton.OnInteract();
+                else if (!fast)
+                {
+                    RestButton.OnInteract();
+                    yield return new WaitForSeconds(.1f);
+                    for (int j = 0; j < answer.Length; j++)
+                    {
+                        keypad[int.Parse(answer[j].ToString())].OnInteract();
+                        yield return new WaitForSeconds(.1f);
+                    }
+                    Submit.OnInteract();
+                }
+                else
+                    FastButton.OnInteract();
+            }
+        }
+        while (showDay) yield return true;
     }
 }
