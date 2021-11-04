@@ -1270,6 +1270,7 @@ GameObject:
   - component: {fileID: 4723964798124798}
   - component: {fileID: 33963685986043412}
   - component: {fileID: 23022472591272566}
+  - component: {fileID: 114566931954000128}
   m_Layer: 0
   m_Name: jeepEdgeFix
   m_TagString: Untagged
@@ -8427,7 +8428,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShaderNames:
-  - Particles/Alpha Blended Premultiply
+  - Particles/Additive (Soft)
+  - Particles/Additive (Soft)
 --- !u!114 &114022864264359246
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -8451,7 +8453,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShaderNames:
-  - Particles/Alpha Blended Premultiply
+  - Particles/Additive (Soft)
+  - Particles/Additive (Soft)
 --- !u!114 &114039811248688944
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -8626,7 +8629,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShaderNames:
-  - Particles/Alpha Blended Premultiply
+  - Particles/Additive (Soft)
+  - Particles/Additive (Soft)
 --- !u!114 &114118097037737984
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -8739,7 +8743,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShaderNames:
-  - Particles/Alpha Blended Premultiply
+  - Particles/Additive (Soft)
+  - Particles/Additive (Soft)
 --- !u!114 &114141803408467264
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -8950,7 +8955,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShaderNames:
-  - Particles/Alpha Blended Premultiply
+  - Particles/Additive (Soft)
+  - Particles/Additive (Soft)
 --- !u!114 &114235402730330378
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -9194,7 +9200,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShaderNames:
-  - Particles/Alpha Blended Premultiply
+  - Particles/Additive (Soft)
+  - Particles/Additive (Soft)
 --- !u!114 &114324637512567730
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -9312,7 +9319,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShaderNames:
-  - Particles/Alpha Blended Premultiply
+  - Particles/Additive (Soft)
+  - Particles/Additive (Soft)
 --- !u!114 &114385949474931866
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -9674,6 +9682,19 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1645287563004218}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1005838349, guid: 45b809be76fd7a3468b6f517bced6f28, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShaderNames:
+  - Standard
+--- !u!114 &114566931954000128
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1555831225207534}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: -1005838349, guid: 45b809be76fd7a3468b6f517bced6f28, type: 3}
@@ -10336,7 +10357,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShaderNames:
-  - Particles/Alpha Blended Premultiply
+  - Particles/Additive (Soft)
+  - Particles/Additive (Soft)
 --- !u!114 &114854975180594140
 MonoBehaviour:
   m_ObjectHideFlags: 1

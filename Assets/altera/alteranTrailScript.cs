@@ -1347,6 +1347,7 @@ public class alteranTrailScript : MonoBehaviour {
             if (showInput || !fast)
             {
                 yield return "sendtochaterror That button cannot be pressed right now!";
+                yield break;
             }
             FastButton.OnInteract();
         }
@@ -1356,6 +1357,7 @@ public class alteranTrailScript : MonoBehaviour {
             if (showInput || !normal)
             {
                 yield return "sendtochaterror That button cannot be pressed right now!";
+                yield break;
             }
             NormalButton.OnInteract();
         }
@@ -1365,6 +1367,7 @@ public class alteranTrailScript : MonoBehaviour {
             if (showInput || !slow)
             {
                 yield return "sendtochaterror That button cannot be pressed right now!";
+                yield break;
             }
             SlowButton.OnInteract();
         }
@@ -1374,6 +1377,7 @@ public class alteranTrailScript : MonoBehaviour {
             if (showInput || !rest)
             {
                 yield return "sendtochaterror That button cannot be pressed right now!";
+                yield break;
             }
             RestButton.OnInteract();
         }
@@ -1383,6 +1387,7 @@ public class alteranTrailScript : MonoBehaviour {
             if (showInput || !HealButton.gameObject.activeSelf)
             {
                 yield return "sendtochaterror That button cannot be pressed right now!";
+                yield break;
             }
             HealButton.OnInteract();
         }
@@ -1392,6 +1397,7 @@ public class alteranTrailScript : MonoBehaviour {
             if (showInput || !retry)
             {
                 yield return "sendtochaterror That button cannot be pressed right now!";
+                yield break;
             }
             RetryButton.OnInteract();
         }
@@ -1402,6 +1408,7 @@ public class alteranTrailScript : MonoBehaviour {
             if (parameters.Length > 2)
             {
                 yield return "sendtochaterror Too many parameters!";
+                yield break;
             }
             else if (parameters.Length == 2)
             {
@@ -1432,6 +1439,7 @@ public class alteranTrailScript : MonoBehaviour {
             else if (parameters.Length == 1)
             {
                 yield return "sendtochaterror Please specify an answer to submit!";
+                yield break;
             }
         }
     }
