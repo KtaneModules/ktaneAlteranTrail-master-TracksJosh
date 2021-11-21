@@ -983,7 +983,7 @@ public class alteranTrailScript : MonoBehaviour {
     void I0()
     {
         audio.PlaySoundAtTransform("Tap", Input0.transform);
-        if (answerKey.Length <= 3)
+        if (answerKey.Length <= 5)
         {
             answerKey = (answerKey + inputZero.ToString()).ToString();
             Screen.text = answerKey;
@@ -994,7 +994,7 @@ public class alteranTrailScript : MonoBehaviour {
     void I1()
     {
         audio.PlaySoundAtTransform("Tap", Input1.transform);
-        if (answerKey.Length <= 3)
+        if (answerKey.Length <= 5)
         {
             answerKey = (answerKey + inputOne.ToString()).ToString();
             Screen.text = answerKey;
@@ -1004,7 +1004,7 @@ public class alteranTrailScript : MonoBehaviour {
     void I2()
     {
         audio.PlaySoundAtTransform("Tap", Input2.transform);
-        if (answerKey.Length <= 3)
+        if (answerKey.Length <= 5)
         {
             answerKey = (answerKey + inputTwo.ToString()).ToString();
             Screen.text = answerKey;
@@ -1014,7 +1014,7 @@ public class alteranTrailScript : MonoBehaviour {
     void I3()
     {
         audio.PlaySoundAtTransform("Tap", Input3.transform);
-        if (answerKey.Length <= 3)
+        if (answerKey.Length <= 5)
         {
             answerKey = (answerKey + inputThree.ToString()).ToString();
             Screen.text = answerKey;
@@ -1024,7 +1024,7 @@ public class alteranTrailScript : MonoBehaviour {
     void I4()
     {
         audio.PlaySoundAtTransform("Tap", Input4.transform);
-        if (answerKey.Length <= 3)
+        if (answerKey.Length <= 5)
         {
             answerKey = (answerKey + inputFour.ToString()).ToString();
             Screen.text = answerKey;
@@ -1034,7 +1034,7 @@ public class alteranTrailScript : MonoBehaviour {
     void I5()
     {
         audio.PlaySoundAtTransform("Tap", Input5.transform);
-        if (answerKey.Length <= 3)
+        if (answerKey.Length <= 5)
         {
             answerKey = (answerKey + inputFive.ToString()).ToString();
             Screen.text = answerKey;
@@ -1044,7 +1044,7 @@ public class alteranTrailScript : MonoBehaviour {
     void I6()
     {
         audio.PlaySoundAtTransform("Tap", Input6.transform);
-        if (answerKey.Length <= 3)
+        if (answerKey.Length <= 5)
         {
             answerKey = (answerKey + inputSix.ToString()).ToString();
             Screen.text = answerKey;
@@ -1054,7 +1054,7 @@ public class alteranTrailScript : MonoBehaviour {
     void I7()
     {
         audio.PlaySoundAtTransform("Tap", Input7.transform);
-        if (answerKey.Length <= 3)
+        if (answerKey.Length <= 5)
         {
             answerKey = (answerKey + inputSeven.ToString()).ToString();
             Screen.text = answerKey;
@@ -1064,7 +1064,7 @@ public class alteranTrailScript : MonoBehaviour {
     void I8()
     {
         audio.PlaySoundAtTransform("Tap", Input8.transform);
-        if (answerKey.Length <= 3)
+        if (answerKey.Length <= 5)
         {
             answerKey = (answerKey + inputEight.ToString()).ToString();
             Screen.text = answerKey;
@@ -1074,7 +1074,7 @@ public class alteranTrailScript : MonoBehaviour {
     void I9()
     {
         audio.PlaySoundAtTransform("Tap", Input9.transform);
-        if (answerKey.Length <= 3)
+        if (answerKey.Length <= 5)
         {
             answerKey = (answerKey + inputNine.ToString()).ToString();
             Screen.text = answerKey;
@@ -1321,6 +1321,7 @@ public class alteranTrailScript : MonoBehaviour {
         {
             Debug.LogFormat("[The Alteran Trail #{0}] Successfully traveled at least 1000km, delivery complete!", moduleId);
             bombModule.HandlePass();
+            Sun.intensity = 0;
             normal = false;
             fast = false;
             slow = false;
@@ -1418,7 +1419,7 @@ public class alteranTrailScript : MonoBehaviour {
                     yield return "sendtochaterror!f The specified answer '" + parameters[1] + "' is invalid!";
                     yield break;
                 }
-                if (temp < 0 || temp > 9999)
+                if (temp < 0 || temp > 999999)
                 {
                     yield return "sendtochaterror The specified answer '" + parameters[1] + "' is invalid!";
                     yield break;
