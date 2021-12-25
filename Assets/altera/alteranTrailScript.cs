@@ -42,7 +42,6 @@ public class alteranTrailScript : MonoBehaviour {
     private string answerKey = "";
     private string answer;
 
-
     private int retries = 0;
     private int events = 0;
     private int inputZero = 0;
@@ -104,6 +103,7 @@ public class alteranTrailScript : MonoBehaviour {
 
     private static int moduleIdCounter = 1;
     private int moduleId;
+    private bool moduleSolved;
 
     // Use this for initialization
     void Start()
@@ -1320,6 +1320,7 @@ public class alteranTrailScript : MonoBehaviour {
         if (distance >= 1000)
         {
             Debug.LogFormat("[The Alteran Trail #{0}] Successfully traveled at least 1000km, delivery complete!", moduleId);
+            moduleSolved = true;
             bombModule.HandlePass();
             Sun.intensity = 0;
             normal = false;
@@ -1504,6 +1505,6 @@ public class alteranTrailScript : MonoBehaviour {
                     FastButton.OnInteract();
             }
         }
-        while (showDay) yield return true;
+        while (!moduleSolved) yield return true;
     }
 }
