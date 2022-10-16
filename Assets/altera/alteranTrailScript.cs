@@ -1431,9 +1431,9 @@ public class alteranTrailScript : MonoBehaviour {
                     yield break;
                 }
                 KMSelectable[] keypad = { Input0, Input1, Input2, Input3, Input4, Input5, Input6, Input7, Input8, Input9 };
-                for (int j = 0; j < answer.Length; j++)
+                for (int j = 0; j < parameters[1].Length; j++)
                 {
-                    keypad[int.Parse(answer[j].ToString())].OnInteract();
+                    keypad[int.Parse(parameters[1][j].ToString())].OnInteract();
                     yield return new WaitForSeconds(.1f);
                 }
                 Submit.OnInteract();
