@@ -86,6 +86,7 @@ public class alteranTrailScript : MonoBehaviour {
     private bool showEquation;
     private bool showInput;
     private bool showTerrain;
+    private bool stated;
 
     private bool sunny = false;
     private bool cloud = false;
@@ -138,6 +139,7 @@ public class alteranTrailScript : MonoBehaviour {
         showMeteors = false;
         showGun = false;
         rest = false;
+        stated = false;
         currentPos = pathObjects[20].transform.position;
         if (retries == 0)
         {
@@ -190,7 +192,7 @@ public class alteranTrailScript : MonoBehaviour {
     // Update is called once per frame
     void Update ()
     {
-        if (health <= 0)
+        if (health <= 0 && !stated)
         {
             Debug.LogFormat("[The Alteran Trail #{0}] You took too much damage and died", moduleId);
             time = 0;
@@ -210,6 +212,7 @@ public class alteranTrailScript : MonoBehaviour {
             showMeteors = false;
             showGun = false;
             rest = false;
+            stated = true;
         }
 
         if (cloud == true && Sun.intensity > 0.1f)
@@ -600,35 +603,42 @@ public class alteranTrailScript : MonoBehaviour {
             case 0:
                 Debug.LogFormat("[The Alteran Trail #{0}] Today's Event: Cloudy", moduleId);
                 Cloudy();
+                if (health > 0) StartCoroutine(Day());
                 break;
             case 1:
                 Debug.LogFormat("[The Alteran Trail #{0}] Today's Event: Sunny", moduleId);
                 Ssun();
+                if (health > 0) StartCoroutine(Day());
                 break;
             case 2:
                 Debug.LogFormat("[The Alteran Trail #{0}] Today's Event: Alteran Flu", moduleId);
                 Debug.LogFormat("[The Alteran Trail #{0}] -10 health", moduleId);
                 Ssick();
+                if (health > 0) StartCoroutine(Day());
                 break;
             case 3:
                 Debug.LogFormat("[The Alteran Trail #{0}] Today's Event: Battery Explosion", moduleId);
                 Debug.LogFormat("[The Alteran Trail #{0}] -25 mAH", moduleId);
                 BatteryBoom();
+                if (health > 0) StartCoroutine(Day());
                 break;
             case 4:
                 Debug.LogFormat("[The Alteran Trail #{0}] Today's Event: Food Cache", moduleId);
                 Debug.LogFormat("[The Alteran Trail #{0}] +20 kg", moduleId);
                 FoodStatch();
+                if (health > 0) StartCoroutine(Day());
                 break;
             case 5:
                 Debug.LogFormat("[The Alteran Trail #{0}] Today's Event: Food Locker Breach", moduleId);
                 Debug.LogFormat("[The Alteran Trail #{0}] -25 kg", moduleId);
                 FoodLockerBreach();
+                if (health > 0) StartCoroutine(Day());
                 break;
             case 6:
                 Debug.LogFormat("[The Alteran Trail #{0}] Today's Event: Sandstorm", moduleId);
                 Debug.LogFormat("[The Alteran Trail #{0}] -15 health", moduleId);
                 Sandstorm();
+                if (health > 0) StartCoroutine(Day());
                 break;
             case 7:
                 Debug.LogFormat("[The Alteran Trail #{0}] Today's Event: Meteor Shower", moduleId);
@@ -654,6 +664,7 @@ public class alteranTrailScript : MonoBehaviour {
                 break;
             case 11:
                 Debug.LogFormat("[The Alteran Trail #{0}] Today's Event: Normal", moduleId);
+                if (health > 0) StartCoroutine(Day());
                 break;
         }
     }
@@ -732,6 +743,7 @@ public class alteranTrailScript : MonoBehaviour {
         {
             food++;
         }
+        if (health > 0) StartCoroutine(Day());
     }
 
     void Retry()
@@ -1169,6 +1181,7 @@ public class alteranTrailScript : MonoBehaviour {
             yield return new WaitForSeconds(1.5f);
         }
         showMeteors = false;
+        if (health > 0) StartCoroutine(Day());
     }
 
     IEnumerator Wolf()
@@ -1193,6 +1206,7 @@ public class alteranTrailScript : MonoBehaviour {
             health = health - 1;
             yield return new WaitForSeconds(0.25f);
         }
+        if (health > 0) StartCoroutine(Day());
     }
 
     IEnumerator Bandits()
@@ -1206,6 +1220,7 @@ public class alteranTrailScript : MonoBehaviour {
             showGun = false;
             yield return new WaitForSeconds(0.05f);
         }
+        if (health > 0) StartCoroutine(Day());
     }
 
     IEnumerator Water()
@@ -1272,7 +1287,6 @@ public class alteranTrailScript : MonoBehaviour {
         yield return new WaitForSeconds(0.625f);
         Events();
         yield return new WaitForSeconds(2.0f);
-        StartCoroutine(Day());
     }
 
     IEnumerator FoodCaches()
@@ -1317,7 +1331,7 @@ public class alteranTrailScript : MonoBehaviour {
             showEquation = false;
             showInput = false;
         }
-        if (distance >= 1000)
+        if (distance >= 1000 && health > 0)
         {
             Debug.LogFormat("[The Alteran Trail #{0}] Successfully traveled at least 1000km, delivery complete!", moduleId);
             moduleSolved = true;
