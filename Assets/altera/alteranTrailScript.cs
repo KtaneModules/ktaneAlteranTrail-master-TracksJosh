@@ -55,6 +55,7 @@ public class alteranTrailScript : MonoBehaviour {
     private int inputEight = 8;
     private int inputNine = 9;
 
+    public KMSelectable ModuleSelectable;
     public KMSelectable RetryButton;
     public KMSelectable RestButton;
     public KMSelectable HealButton;
@@ -87,6 +88,7 @@ public class alteranTrailScript : MonoBehaviour {
     private bool showInput;
     private bool showTerrain;
     private bool stated;
+    private bool focus = false;
 
     private bool sunny = false;
     private bool cloud = false;
@@ -143,7 +145,8 @@ public class alteranTrailScript : MonoBehaviour {
         currentPos = pathObjects[20].transform.position;
         if (retries == 0)
         {
-            RetryButton.OnInteract += delegate { Retry(); return false; };
+            ModuleSelectable.OnFocus += delegate { focus = true; };
+            ModuleSelectable.OnDefocus += delegate { focus = false; };
             RestButton.OnInteract += delegate { Rest(); return false; };
             HealButton.OnInteract += delegate { Heal(); return false; };
             FastButton.OnInteract += delegate { Fast(); return false; };
@@ -160,6 +163,7 @@ public class alteranTrailScript : MonoBehaviour {
             Input6.OnInteract += delegate { I6(); return false; };
             Input7.OnInteract += delegate { I7(); return false; };
             Input8.OnInteract += delegate { I8(); return false; };
+            Input9.OnInteract += delegate { I9(); return false; };
             Input9.OnInteract += delegate { I9(); return false; };
         }
         StartCoroutine(Day());
@@ -215,6 +219,18 @@ public class alteranTrailScript : MonoBehaviour {
             stated = true;
         }
 
+        if (!focus) 
+        { 
+            Sun.gameObject.SetActive(false); 
+            Sick.gameObject.SetActive(false); 
+            Sandstorms.gameObject.SetActive(false); 
+        }
+        if (focus) 
+        {
+            Sun.gameObject.SetActive(true);
+            Sick.gameObject.SetActive(true);
+            Sandstorms.gameObject.SetActive(true);
+        }
         if (cloud == true && Sun.intensity > 0.1f)
         {
             Sun.intensity = Sun.intensity - 0.1f;
