@@ -164,7 +164,7 @@ public class alteranTrailScript : MonoBehaviour {
             Input7.OnInteract += delegate { I7(); return false; };
             Input8.OnInteract += delegate { I8(); return false; };
             Input9.OnInteract += delegate { I9(); return false; };
-            Input9.OnInteract += delegate { I9(); return false; };
+            RetryButton.OnInteract += delegate { Retry(); return false; };
         }
         StartCoroutine(Day());
     }
